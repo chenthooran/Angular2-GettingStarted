@@ -1,6 +1,11 @@
-import { Injectable } from 'angular2/core';
-import { Http, Response } from 'angular2/http';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
 
 import { IProduct } from './product';
 
@@ -13,13 +18,13 @@ export class ProductService {
     getProducts(): Observable<IProduct[]> {
         return this._http.get(this._productUrl)
             .map((response: Response) => <IProduct[]> response.json())
-            .do(data => console.log("All: " +  JSON.stringify(data)))
+            .do(data => console.log('All: ' +  JSON.stringify(data)))
             .catch(this.handleError);
     }
 
     getProduct(id: number): Observable<IProduct> {
         return this.getProducts()
-            .map((products: IProduct[]) => products.find(p => p.productId === id));       
+            .map((products: IProduct[]) => products.find(p => p.productId === id));
     }
 
     private handleError(error: Response) {
